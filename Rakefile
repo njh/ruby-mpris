@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'rake/testtask'
 
-NAME = "mpris"
+NAME = "ruby-mpris"
 VERS = "0.0.1"
 CLEAN.include ['pkg', 'rdoc']
 
@@ -13,20 +13,20 @@ Gem::manage_gems
 
 spec = Gem::Specification.new do |s|
   s.name            = NAME
-  s.version          = VERS
+  s.version         = VERS
   s.author          = "Nicholas J Humfrey"
-  s.email            = "njh@aelius.com"
+  s.email           = "njh@aelius.com"
   s.homepage        = "http://mpris.rubyforge.org"
   s.platform        = Gem::Platform::RUBY
-  s.summary          = "A library to control MPRIS based Media Players" 
-  s.rubyforge_project = NAME 
+  s.summary         = "A library to control MPRIS based Media Players" 
+  s.rubyforge_project = "mpris" 
   s.description = <<EOF
 The mpris gem allows you to control media players that follow the MPRIS specification.
 EOF
   s.files = FileList["lib/**/*", "test/*"].exclude("rdoc").to_a
   s.require_path    = "lib"
   s.has_rdoc        = true
-  s.extra_rdoc_files = ["README", "CHANGELOG", "COPYING"]  
+  s.extra_rdoc_files = ["README", "NEWS", "COPYING"]  
   s.test_file       = "test/runtest.rb"
 end
 
@@ -50,13 +50,13 @@ end
 desc "Generate documentation for the library"
 Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = "mpris Documentation"
+  rdoc.title    = "ruby-mpris Documentation"
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.main = "README"
-  rdoc.rdoc_files.include("README", "CHANGELOG", "COPYING", 'lib/**/*.rb')
+  rdoc.rdoc_files.include("README", "NEWS", "COPYING", 'lib/**/*.rb')
 }
 
-desc "rdoc to rubyforge"
-task :rubyforge => [:rdoc] do
-  sh %{/usr/bin/scp -r -p rdoc/* rubyforge:/var/www/gforge-projects/mpris}
+desc "Upload rdoc to rubyforge"
+task :upload_rdoc => [:rdoc] do
+  sh %{/usr/bin/scp -r -p rdoc/* mpris.rubyforge.org:/var/www/gforge-projects/mpris}
 end
