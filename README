@@ -1,9 +1,12 @@
-== mpris
+== ruby-mpris
 
-The mpris gem allows you to control media players that follow the MPRIS specification.
+The ruby-mpris gem allows you to control media players that follow the MPRIS specification.
 
 RubyForge Project Page  http://rubyforge.org/projects/mpris/
 
+== Dependancies
+
+ruby-dbus performs all the hard work behind the scenes. You can download it from: http://trac.luon.net/ruby-dbus/
 
 == Installing
 
@@ -11,7 +14,7 @@ You may get the latest stable version from Rubyforge. Source gems are also avail
 
   $ gem install mpris
 
-=== Loading mpris gem Itself
+=== Loading ruby-mpris gem Itself
 
 You have installed the gem already, yeah?
 
@@ -21,7 +24,7 @@ You have installed the gem already, yeah?
 
 == Resources
 
-mpris.org:: http://www.mpris.org/
+http://www.mpris.org
 
 == Contact
 
