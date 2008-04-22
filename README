@@ -1,0 +1,31 @@
+== mpris
+
+The mpris gem allows you to control media players that follow the MPRIS specification.
+
+RubyForge Project Page  http://rubyforge.org/projects/mpris/
+
+
+== Installing
+
+You may get the latest stable version from Rubyforge. Source gems are also available.
+
+  $ gem install mpris
+
+=== Loading mpris gem Itself
+
+You have installed the gem already, yeah?
+
+ require 'rubygems'
+ require 'mpris'
+
+
+== Resources
+
+mpris.org:: http://www.mpris.org/
+
+== Contact
+
+Author::     Nicholas J Humfrey
+Email::      njh@aelius.com 
+Home Page::  http://www.aelius.com/njh/
+License::    MIT Licence (http://www.opensource.org/licenses/mit-license.html)
