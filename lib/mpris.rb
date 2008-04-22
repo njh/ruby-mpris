@@ -1,14 +1,23 @@
 #!/usr/bin/ruby
+#
+# Copyright (C) 2008 by Nicholas J Humfrey
+#
+
 
 require 'dbus'
+require 'mpris/player'
+require 'mpris/track_list'
+
 
 MPRIS_SERVICE_PREFIX = 'org.mpris'
 MPRIS_INTERFACE = 'org.freedesktop.MediaPlayer'
 
 
 class Mpris
-  attr_reader :dbus, :service, :root_iface
+  #attr_reader :dbus, :service, :root_iface
   
+  # Create a new Mpris instance. 
+  # By default it will return the first MPRIS player found on the Session Bus
   def initialize( dbus_address=nil, service_name=nil )
 
     if dbus_address.nil?
@@ -32,7 +41,7 @@ class Mpris
       
       # Did we find one?
       if service_name.nil?
-        raise "No MPRIS service found on D-Bus"
+        raise "No MPRIS service found on D-Bus."
       end
     end
     
@@ -49,15 +58,19 @@ class Mpris
     
   end
 
-
+  # Identify the "media player" as in "VLC 0.9.0", "bmpx 0.34.9", "Audacious 1.4.0" ...
+  #
+  # Returns a string containing the media player identification.
   def identity
     return @root_iface.Identity
   end
   
+  # Makes the "Media Player" exit.
   def quit
     @root_iface.Quit
   end
   
+  # Returns the version of the MPRIS spec being implemented as major.major
   def mpris_version
     return @root_iface.MprisVersion
   end
