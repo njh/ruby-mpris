@@ -12,22 +12,20 @@ CLEAN.include ['pkg', 'rdoc']
 Gem::manage_gems
 
 spec = Gem::Specification.new do |s|
-  s.name            = NAME
-  s.version         = VERS
-  s.author          = "Nicholas J Humfrey"
-  s.email           = "njh@aelius.com"
-  s.homepage        = "http://mpris.rubyforge.org"
-  s.platform        = Gem::Platform::RUBY
-  s.summary         = "A library to control MPRIS based Media Players" 
+  s.name              = NAME
+  s.version           = VERS
+  s.author            = "Nicholas J Humfrey"
+  s.email             = "njh@aelius.com"
+  s.homepage          = "http://mpris.rubyforge.org"
+  s.platform          = Gem::Platform::RUBY
+  s.summary           = "A library to control MPRIS based Media Players" 
   s.rubyforge_project = "mpris" 
-  s.description = <<EOF
-The mpris gem allows you to control media players that follow the MPRIS specification.
-EOF
-  s.files = FileList["lib/**/*", "test/*"].exclude("rdoc").to_a
-  s.require_path    = "lib"
-  s.has_rdoc        = true
-  s.extra_rdoc_files = ["README", "NEWS", "COPYING"]  
-  s.test_file       = "test/runtest.rb"
+  s.description       = "The mpris gem allows you to control media players that follow the MPRIS specification."
+  s.files             = FileList["lib/mpris.rb", "lib/mpris/*", "spec/*"]
+  s.require_path      = "lib"
+  s.has_rdoc          = true
+  s.extra_rdoc_files  = ["README", "NEWS", "COPYING"]  
+  s.test_file         = "test/runtest.rb"
 end
 
 task :build_package => [:repackage]
@@ -53,7 +51,7 @@ Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.title    = "ruby-mpris Documentation"
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.main = "README"
-  rdoc.rdoc_files.include("README", "NEWS", "COPYING", 'lib/**/*.rb')
+  rdoc.rdoc_files.include("README", "NEWS", "COPYING", "lib/mpris.rb", "lib/mpris/*.rb")
 }
 
 desc "Upload rdoc to rubyforge"
