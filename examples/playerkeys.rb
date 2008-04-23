@@ -29,7 +29,7 @@ begin
       mpris.player.stop
     when 91 then
       puts "Previous"
-      mpris.player.prev
+      mpris.player.previous
     when 93 then
       puts "Next"
       mpris.player.next

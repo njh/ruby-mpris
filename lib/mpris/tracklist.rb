@@ -55,7 +55,7 @@ class Mpris
     # Removes an URI from the TrackList.
     #
     # pos is the position in the tracklist of the item to remove.
-    def del_track(pos)
+    def delete_track(pos)
     end
   
     # Toggle playlist loop. true to loop, false to stop looping.

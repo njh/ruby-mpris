@@ -31,7 +31,7 @@ class Mpris
     end
     
     # Goes to the previous item in the TrackList
-    def prev
+    def previous
       @interface.Prev
     end
     
