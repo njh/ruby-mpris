@@ -3,18 +3,17 @@
 # Copyright (C) 2008 by Nicholas J Humfrey
 #
 
-
 require 'dbus'
 require 'mpris/player'
-require 'mpris/track_list'
-
-
-MPRIS_SERVICE_PREFIX = 'org.mpris'
-MPRIS_INTERFACE = 'org.freedesktop.MediaPlayer'
+require 'mpris/tracklist'
 
 
 class Mpris
+  attr_reader :player, :tracklist
   #attr_reader :dbus, :service, :root_iface
+
+  MPRIS_SERVICE_PREFIX = 'org.mpris'
+  MPRIS_INTERFACE = 'org.freedesktop.MediaPlayer'
   
   # Create a new Mpris instance. 
   # By default it will return the first MPRIS player found on the Session Bus
@@ -22,7 +21,7 @@ class Mpris
 
     if dbus_address.nil?
       # Use the default session bus
-       @dbus = DBus::SessionBus.new
+      @dbus = DBus::SessionBus.instance
     else
       @dbus = DBus::Connection.new(dbus_address)
       @dbus.connect
@@ -41,7 +40,7 @@ class Mpris
       
       # Did we find one?
       if service_name.nil?
-        raise "No MPRIS service found on D-Bus."
+        raise( ServiceNotFoundException, "No MPRIS service found on D-Bus." )
       end
     end
     
@@ -52,28 +51,42 @@ class Mpris
     root_object = @service.object("/")
     root_object.introspect
     unless root_object.has_iface? MPRIS_INTERFACE
-      raise "#{service_name} does not implement the MediaPlayer interface."
+      raise(InterfaceNotImplementedException, 
+        "#{service_name} does not implement the MediaPlayer interface on /." )
     end
-    @root_iface = root_object[MPRIS_INTERFACE]
+    @interface = root_object[MPRIS_INTERFACE]
     
+    # Create the player object
+    @player = Mpris::Player.new(@service)
+    
+    # Create a tracklist object
+    @tracklist = Mpris::TrackList.new(@service)
   end
 
   # Identify the "media player" as in "VLC 0.9.0", "bmpx 0.34.9", "Audacious 1.4.0" ...
   #
   # Returns a string containing the media player identification.
   def identity
-    return @root_iface.Identity
+    return @interface.Identity
   end
   
   # Makes the "Media Player" exit.
   def quit
-    @root_iface.Quit
+    @interface.Quit
   end
   
   # Returns the version of the MPRIS spec being implemented as major.major
   def mpris_version
-    return @root_iface.MprisVersion
+    return @interface.MprisVersion.flatten.join('.')
   end
-  
+ 
+ 
+  # Exception raised if no Mpris service is found on the D-Bus
+  class ServiceNotFoundException < Exception
+  end
+ 
+  # Exception raised if MediaPlayer interface isn't implemented
+  class InterfaceNotImplementedException < Exception
+  end
 
 end

@@ -1,4 +1,7 @@
 #!/usr/bin/ruby
+#
+# Copyright (C) 2008 by Nicholas J Humfrey
+#
 
 class Mpris
 
@@ -8,25 +11,43 @@ class Mpris
     PAUSED = 1
     STOPPED = 2
     
+    def initialize( service )
+      @service = service
+    
+      # Check the service implements the MediaPlayer interface
+      object = @service.object("/Player")
+      object.introspect
+      unless object.has_iface? Mpris::MPRIS_INTERFACE
+        raise(Mpris::InterfaceNotImplementedException, 
+          "#{service_name} does not implement the MediaPlayer interface on /.")
+      end
+      @interface = object[Mpris::MPRIS_INTERFACE]
+    end
+    
     
     # Goes to the next item in the TrackList
     def next
+      @interface.Next
     end
     
     # Goes to the previous item in the TrackList
     def prev
+      @interface.Prev
     end
     
     # If playing : pause. If paused : unpause
     def pause
+      @interface.Pause
     end
     
     # Stop playback
     def stop
+      @interface.Stop
     end
     
     # If playing : rewind to the beginning of current track, else : start playing.
     def play
+      @interface.Play
     end
     
     # Toggle the current track repeat.
@@ -42,6 +63,7 @@ class Mpris
     # Gives all metadata available for the current item.
     # Metadata is returned as key,values pairs in a Hash.
     def metadata
+      return @interface.GetMetadata
     end
     
     # Check if there is a next track, or at least something that equals to it 
