@@ -63,7 +63,7 @@ class Mpris
     # Gives all metadata available for the current item.
     # Metadata is returned as key,values pairs in a Hash.
     def metadata
-      return @interface.GetMetadata
+      return @interface.GetMetadata.first
     end
     
     # Check if there is a next track, or at least something that equals to it 
@@ -100,21 +100,32 @@ class Mpris
     
     # Sets the volume (argument must be in [0;100])
     def volume=(vol)
+      vol = vol.to_i
+      raise(ArgumentError,"Volume cannot be negative") if (vol<0)
+      @interface.VolumeSet(vol)
     end
     
     # Returns the current volume (must be in [0;100])
     def volume
+      return @interface.VolumeGet.first
     end
     
     # Sets the playing position (argument must be in [0;<track_length>] 
     # in milliseconds)
     def position=(time)
+      time = time.to_i
+      raise(ArgumentError,"Position cannot be negative") if (time<0)
+      @interface.PositionSet(time)
     end
     
     # Returns the playing position (will be [0;<track_length>] in milliseconds)
     def position
+      return @interface.PositionGet.first
     end
   
+    protected
+    
+    
   end
 
 end
