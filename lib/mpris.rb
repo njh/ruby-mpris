@@ -77,15 +77,15 @@ class Mpris
   
   # Returns the version of the MPRIS spec being implemented as major.major
   def mpris_version
-    return @interface.MprisVersion.flatten.join('.')
+    return @interface.MprisVersion.first.join('.')
   end
  
  
-  # Exception raised if no Mpris service is found on the D-Bus
+  # Exception raised if no Mpris service is found on the D-Bus.
   class ServiceNotFoundException < Exception
   end
  
-  # Exception raised if MediaPlayer interface isn't implemented
+  # Exception raised if MediaPlayer interface isn't implemented.
   class InterfaceNotImplementedException < Exception
   end
 
