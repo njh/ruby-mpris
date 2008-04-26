@@ -1,6 +1,10 @@
 #!/usr/bin/ruby
 #
-# Copyright (C) 2008 by Nicholas J Humfrey
+# Interactive console script to control the media player.
+#
+# Author::    Nicholas J Humfrey  (mailto:njh@aelius.com)
+# Copyright:: Copyright (c) 2008 Nicholas J Humfrey
+# License::   Distributes under the same terms as Ruby
 #
 
 $:.unshift File.dirname(__FILE__)+'/../lib'
@@ -12,7 +16,8 @@ require 'mpris'
 
 mpris = Mpris.new
 
-puts "p:play space:pause s:stop [:prev ]:next x:exit"
+puts "p:play space:pause s:stop [:prev ]:next q:quit"
+puts "+:volume_up -:volume_down x:exit"
 
 begin
   c = HighLine::SystemExtensions::get_character
@@ -21,6 +26,9 @@ begin
     when 112 then
       puts "Play"
       mpris.player.play
+    when 113 then
+      puts "Quit"
+      mpris.quit
     when 32 then
       puts "Pause"
       mpris.player.pause
@@ -33,6 +41,20 @@ begin
     when 93 then
       puts "Next"
       mpris.player.next
-  end
+    when 43 then
+      vol = mpris.player.volume+5
+      puts "Volume Up (#{vol})"
+      mpris.player.volume = vol
+    when 45 then
+      vol = mpris.player.volume-5
+      puts "Volume Down (#{vol})"
+      mpris.player.volume = vol
+    when 114 then
+      repeat = !mpris.player.repeat
+      puts "Repeat=#{repeat}"
+      mpris.player.repeat = repeat
+    else
+      puts "Unhandled key press: #{c}"
+   end
     
 end until (c == 120)
