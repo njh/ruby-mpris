@@ -11,7 +11,7 @@ class Mpris
 
   # This class represents the Media Player's tracklist.
   #
-  # Note that if Player::has_tracklist? is false, the methods described below
+  # Note that if player.has_tracklist? is false, the methods described below
   # will be implemented as no-ops, except metadata (which is valid only if given 
   # argument is 0), current_track (which always returns 0), 
   # length (which will return 0 or 1), and add_track.
@@ -68,11 +68,12 @@ class Mpris
       @interface.DeleteTrack(pos)
     end
   
-    # Set the tracklist loop status. true to loop, false to stop looping.
+    # Set the tracklist looping status. true to loop, false to stop looping.
     def loop=(bool)
       @interface.SetLoop(bool)
     end
     
+    # Returns tracklist looping status.
     def loop
       # Hack to get the player interface
       player_iface = @parent.player.send(:interface)
@@ -86,6 +87,7 @@ class Mpris
       @interface.SetRandom(bool)
     end
     
+    # Returns the tracklist shuffle / random status.
     def random
       # Hack to get the player interface
       player_iface = @parent.player.send(:interface)
