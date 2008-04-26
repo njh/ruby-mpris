@@ -24,6 +24,12 @@ class Mpris
   # Create a new Mpris instance. 
   # By default it will return the first MPRIS enabled player found 
   # on the Session Bus.
+  #
+  # The dbus_address parameter can be use to specify a different dbus, for 
+  # example 'unix:path=/var/run/dbus_socket'.
+  #
+  # The service_name parameter can be used to specify a specifc MediaPlayer,
+  # for example 'org.mpris.vlc'.
   def initialize( dbus_address=nil, service_name=nil )
 
     # FIXME: support passing in a dbus object, instead of a dbus address
