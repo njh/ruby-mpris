@@ -1,18 +1,27 @@
 #!/usr/bin/ruby
 #
-# Copyright (C) 2008 by Nicholas J Humfrey
+# MPRIS is the Media Player Remote Interfacing Specification.
+#
+# Author::    Nicholas J Humfrey  (mailto:njh@aelius.com)
+# Copyright:: Copyright (c) 2008 Nicholas J Humfrey
+# License::   Distributes under the same terms as Ruby
 #
 
 class Mpris
 
+  # This class represents the Media Player's tracklist.
+  #
   # Note that if Player::has_tracklist? is false, the methods described below
   # will be implemented as no-ops, except metadata (which is valid only if given 
   # argument is 0), current_track (which always returns 0), 
-  # length (which will return 0 or 1), and add_track
+  # length (which will return 0 or 1), and add_track.
+  #
   class TrackList
   
-    def initialize( service )
+    # A tracklist object should only be created directly by its parent Mpris
+    def initialize( service, parent ) #:nodoc:
       @service = service
+      @parent = parent
     
       # Check the service implements the MediaPlayer interface
       object = @service.object("/TrackList")
@@ -24,7 +33,7 @@ class Mpris
       @interface = object[Mpris::MPRIS_INTERFACE]
     end
     
-    # Gives all meta data available for item at given position in the TrackList, counting from 0.
+    # Gives all metadata available for item at given position in the TrackList, counting from 0.
     # 
     # Metadata is returned as key,values pairs in a Hash
     #
@@ -59,17 +68,31 @@ class Mpris
       @interface.DeleteTrack(pos)
     end
   
-    # Toggle playlist loop. true to loop, false to stop looping.
+    # Set the tracklist loop status. true to loop, false to stop looping.
     def loop=(bool)
       @interface.SetLoop(bool)
     end
+    
+    def loop
+      # Hack to get the player interface
+      player_iface = @parent.player.send(:interface)
+      # Fourth integrer in array is the looping status
+      return player_iface.GetStatus.first[3] #== 1
+    end
   
-    # Toggle playlist shuffle / random. It may or may not play tracks only once.
-    # true to play randomly / shuffle playlist, false to play normally / reorder playlist.
+    # Set the tracklist shuffle / random status. It may or may not play tracks only once.
+    # true to play randomly / shuffle tracklist, false to play normally / reorder tracklist.
     def random=(bool)
       @interface.SetRandom(bool)
     end
     
+    def random
+      # Hack to get the player interface
+      player_iface = @parent.player.send(:interface)
+      # Second integrer in array is the random status
+      return player_iface.GetStatus.first[1] #== 1
+    end
+
   end
 
 end

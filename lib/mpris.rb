@@ -1,6 +1,10 @@
 #!/usr/bin/ruby
 #
-# Copyright (C) 2008 by Nicholas J Humfrey
+# MPRIS is the Media Player Remote Interfacing Specification.
+#
+# Author::    Nicholas J Humfrey  (mailto:njh@aelius.com)
+# Copyright:: Copyright (c) 2008 Nicholas J Humfrey
+# License::   Distributes under the same terms as Ruby
 #
 
 require 'dbus'
@@ -8,17 +12,21 @@ require 'mpris/player'
 require 'mpris/tracklist'
 
 
+# This is the base MPRIS class. It creates the #Player and #Tracklist objects 
+# automatically, which are accessible via the attribute readers.
 class Mpris
-  attr_reader :player, :tracklist
-  #attr_reader :dbus, :service, :root_iface
+  attr_reader :player
+  attr_reader :tracklist
 
   MPRIS_SERVICE_PREFIX = 'org.mpris'
   MPRIS_INTERFACE = 'org.freedesktop.MediaPlayer'
   
   # Create a new Mpris instance. 
-  # By default it will return the first MPRIS player found on the Session Bus
+  # By default it will return the first MPRIS enabled player found 
+  # on the Session Bus.
   def initialize( dbus_address=nil, service_name=nil )
 
+    # FIXME: support passing in a dbus object, instead of a dbus address
     if dbus_address.nil?
       # Use the default session bus
       @dbus = DBus::SessionBus.instance
@@ -57,10 +65,10 @@ class Mpris
     @interface = root_object[MPRIS_INTERFACE]
     
     # Create the player object
-    @player = Mpris::Player.new(@service)
+    @player = Mpris::Player.new(@service, self)
     
     # Create a tracklist object
-    @tracklist = Mpris::TrackList.new(@service)
+    @tracklist = Mpris::TrackList.new(@service, self)
   end
 
   # Identify the "media player" as in "VLC 0.9.0", "bmpx 0.34.9", "Audacious 1.4.0" ...
