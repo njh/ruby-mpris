@@ -28,7 +28,7 @@ class MPRIS
       object.introspect
       unless object.has_iface? MPRIS::MPRIS_INTERFACE
         raise(MPRIS::InterfaceNotImplementedException, 
-          "#{service_name} does not implement the MediaPlayer interface on /.")
+          "#{@service.name} does not implement the MediaPlayer interface on /TrackList.")
       end
       @interface = object[MPRIS::MPRIS_INTERFACE]
     end
@@ -39,6 +39,7 @@ class MPRIS
     #
     # The pos argument is the position in the TrackList of the item of which the metadata is requested.
     def metadata(pos)
+      raise(ArgumentError,"'pos' argument cannot be nil") if pos.nil?
       return @interface.GetMetadata(pos).first
     end
   
@@ -58,6 +59,7 @@ class MPRIS
     #
     # Returns 0 if successful
     def add_track(uri,play_immediately=false)
+      raise(ArgumentError,"'uri' argument cannot be nil") if uri.nil?
       @interface.AddTrack(uri,play_immediately)
     end
   
@@ -65,6 +67,7 @@ class MPRIS
     #
     # pos is the position in the tracklist of the item to remove.
     def delete_track(pos)
+      raise(ArgumentError,"'pos' argument cannot be nil") if pos.nil?
       @interface.DelTrack(pos)
     end
 
@@ -79,6 +82,7 @@ class MPRIS
   
     # Set the tracklist looping status. true to loop, false to stop looping.
     def loop=(bool)
+      raise(ArgumentError,"'bool' argument cannot be nil") if bool.nil?
       @interface.SetLoop(bool)
     end
     
@@ -93,6 +97,7 @@ class MPRIS
     # Set the tracklist shuffle / random status. It may or may not play tracks only once.
     # true to play randomly / shuffle tracklist, false to play normally / reorder tracklist.
     def random=(bool)
+      raise(ArgumentError,"'bool' argument cannot be nil") if bool.nil?
       @interface.SetRandom(bool)
     end
     

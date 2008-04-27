@@ -26,7 +26,7 @@ class MPRIS
       object.introspect
       unless object.has_iface? MPRIS::MPRIS_INTERFACE
         raise(MPRIS::InterfaceNotImplementedException, 
-          "#{service_name} does not implement the MediaPlayer interface on /.")
+          "#{@service.name} does not implement the MediaPlayer interface on /Player.")
       end
       @interface = object[MPRIS::MPRIS_INTERFACE]
     end
@@ -66,6 +66,7 @@ class MPRIS
     # Toggle the current track repeat.
     # true to repeat the current track, false to stop repeating.
     def repeat=(bool)
+      raise(ArgumentError,"'bool' argument cannot be nil") if bool.nil?
       @interface.Repeat(bool)
     end
     
@@ -125,8 +126,10 @@ class MPRIS
     
     # Sets the volume (argument must be in [0;100])
     def volume=(vol)
-      vol = vol.to_i
-      raise(ArgumentError,"Volume cannot be negative") if (vol<0)
+      raise(ArgumentError,"'vol' argument cannot be nil") if vol.nil?
+      raise(ArgumentError,"'vol' argument shuld be an integer value") unless vol.is_a?(Integer)
+      raise(ArgumentError,"'vol' argument cannot be negative") if (vol<0)
+      raise(ArgumentError,"'vol' argument cannot be greater than 100") if (vol>100)
       @interface.VolumeSet(vol)
     end
     
@@ -138,8 +141,9 @@ class MPRIS
     # Sets the playing position (argument must be in [0;<track_length>] 
     # in milliseconds)
     def position=(time)
-      time = time.to_i
-      raise(ArgumentError,"Position cannot be negative") if (time<0)
+      raise(ArgumentError,"'time' argument cannot be nil") if time.nil?
+      raise(ArgumentError,"'time' argument shuld be an integer value") unless time.is_a?(Integer)
+      raise(ArgumentError,"'time' argyment cannot be negative") if (time<0)
       @interface.PositionSet(time)
     end
     

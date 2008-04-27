@@ -69,7 +69,7 @@ class MPRIS
     root_object.introspect
     unless root_object.has_iface? MPRIS_INTERFACE
       raise(InterfaceNotImplementedException, 
-        "#{service_name} does not implement the MediaPlayer interface on /." )
+        "#{@service.name} does not implement the MediaPlayer interface on /." )
     end
     @interface = root_object[MPRIS_INTERFACE]
     
