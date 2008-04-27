@@ -65,7 +65,16 @@ class Mpris
     #
     # pos is the position in the tracklist of the item to remove.
     def delete_track(pos)
-      @interface.DeleteTrack(pos)
+      @interface.DelTrack(pos)
+    end
+
+    # Removes all tracks from the TrackList.
+    def delete_all
+      len = length
+      while(len) do
+        delete_track(0)
+        len -= 1
+      end
     end
   
     # Set the tracklist looping status. true to loop, false to stop looping.
