@@ -11,7 +11,7 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 
 require 'mpris'
 
-mpris = Mpris.new
+mpris = MPRIS.new
 
 # Get the number of tracks on the tracklist
 len = mpris.tracklist.length

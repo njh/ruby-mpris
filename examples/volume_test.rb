@@ -12,7 +12,7 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 require 'mpris'
 
 
-mpris = Mpris.new
+mpris = MPRIS.new
 
 # Test to set and get the playback volume of the media player
 for vol_in in 0..150

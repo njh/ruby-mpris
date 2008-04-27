@@ -12,7 +12,7 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 require 'mpris'
 
 
-mpris = Mpris.new
+mpris = MPRIS.new
 
 
 puts "Enabling looping."
@@ -42,16 +42,16 @@ puts " Looping status: #{mpris.player.repeat}"
 
 puts "Stopping playback..."
 mpris.player.stop
-puts " Mpris::Player::STOPPED: #{Mpris::Player::STOPPED}"
+puts " MPRIS::Player::STOPPED: #{MPRIS::Player::STOPPED}"
 puts " Playback status: #{mpris.player.status}"
 
 puts "Starting playback..."
 mpris.player.play
-puts " Mpris::Player::PLAYING: #{Mpris::Player::PLAYING}"
+puts " MPRIS::Player::PLAYING: #{MPRIS::Player::PLAYING}"
 puts " Playback status: #{mpris.player.status}"
 
 # Current crashes VLC:
 #puts "Pausing playback..."
 #mpris.player.pause
-#puts " Mpris::Player::PAUSED: #{Mpris::Player::PAUSED}"
+#puts " MPRIS::Player::PAUSED: #{MPRIS::Player::PAUSED}"
 #puts " Playback status: #{mpris.player.status}"

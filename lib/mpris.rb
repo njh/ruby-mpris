@@ -14,14 +14,14 @@ require 'mpris/tracklist'
 
 # This is the base MPRIS class. It creates the #Player and #Tracklist objects 
 # automatically, which are accessible via the attribute readers.
-class Mpris
+class MPRIS
   attr_reader :player
   attr_reader :tracklist
 
   MPRIS_SERVICE_PREFIX = 'org.mpris'
   MPRIS_INTERFACE = 'org.freedesktop.MediaPlayer'
   
-  # Create a new Mpris instance. 
+  # Create a new MPRIS instance. 
   # By default it will return the first MPRIS enabled player found 
   # on the Session Bus.
   #
@@ -71,10 +71,10 @@ class Mpris
     @interface = root_object[MPRIS_INTERFACE]
     
     # Create the player object
-    @player = Mpris::Player.new(@service, self)
+    @player = MPRIS::Player.new(@service, self)
     
     # Create a tracklist object
-    @tracklist = Mpris::TrackList.new(@service, self)
+    @tracklist = MPRIS::TrackList.new(@service, self)
   end
 
   # Identify the "media player" as in "VLC 0.9.0", "bmpx 0.34.9", "Audacious 1.4.0" ...
@@ -95,7 +95,7 @@ class Mpris
   end
  
  
-  # Exception raised if no Mpris service is found on the D-Bus.
+  # Exception raised if no MPRIS service is found on the D-Bus.
   class ServiceNotFoundException < Exception
   end
  

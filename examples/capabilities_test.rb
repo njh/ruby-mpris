@@ -12,7 +12,7 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 require 'mpris'
 
 
-mpris = Mpris.new
+mpris = MPRIS.new
 puts "Checking capabilites:"
 puts " can_go_next?: #{mpris.player.can_go_next?}"
 puts " can_go_prev?: #{mpris.player.can_go_prev?}"
