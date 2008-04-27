@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
   s.summary           = "A library to control MPRIS based Media Players" 
   s.rubyforge_project = "mpris" 
   s.description       = "The mpris gem allows you to control media players that follow the MPRIS specification."
-  s.files             = FileList["lib/mpris.rb", "lib/mpris/*"]
+  s.files             = FileList["Rakefile", "lib/mpris.rb", "lib/mpris/*", "examples/*"]
   s.require_path      = "lib"
   
   # rdoc
@@ -45,12 +45,12 @@ end
 
 desc "Run :package and install the resulting .gem"
 task :install => :package do
-  sh %{#{SUDO} gem install --local pkg/#{NAME}-#{VERSION}.gem}
+  sh %{sudo gem install --local pkg/#{NAME}-#{VERS}.gem}
 end
 
 desc "Run :clean and uninstall the .gem"
 task :uninstall => :clean do
-  sh %{#{SUDO} gem uninstall #{NAME}}
+  sh %{sudo gem uninstall #{NAME}}
 end
 
 
