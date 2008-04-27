@@ -60,6 +60,9 @@ class MPRIS
     
     # Get the service
     @service = @dbus.service(service_name)
+    if @service.nil?
+      raise( ServiceNotFoundException, "MPRIS service '#{service_name}' not found on D-Bus." )
+    end
     
     # Check the service implements the MediaPlayer interface
     root_object = @service.object("/")
@@ -77,6 +80,10 @@ class MPRIS
     @tracklist = MPRIS::TrackList.new(@service, self)
   end
 
+  def inspect # :nodoc:
+    return %Q(#<MPRIS: local_name="#{@dbus.unique_name}", remote_name="#{@service.name}">)
+  end
+  
   # Identify the "media player" as in "VLC 0.9.0", "bmpx 0.34.9", "Audacious 1.4.0" ...
   #
   # Returns a string containing the media player identification.
