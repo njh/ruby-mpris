@@ -6,7 +6,7 @@ require 'rake/rdoctask'
 require 'rake/testtask'
 
 NAME = "ruby-mpris"
-VERS = "0.1.0"
+VERS = "0.1.1"
 CLEAN.include ['pkg', 'rdoc']
 
 Gem::manage_gems
