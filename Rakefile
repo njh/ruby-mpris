@@ -6,7 +6,7 @@ require 'rake/rdoctask'
 require 'rake/testtask'
 
 NAME = "ruby-mpris"
-VERS = "0.0.1"
+VERS = "0.1.0"
 CLEAN.include ['pkg', 'rdoc']
 
 Gem::manage_gems
@@ -21,30 +21,57 @@ spec = Gem::Specification.new do |s|
   s.summary           = "A library to control MPRIS based Media Players" 
   s.rubyforge_project = "mpris" 
   s.description       = "The mpris gem allows you to control media players that follow the MPRIS specification."
-  s.files             = FileList["lib/mpris.rb", "lib/mpris/*", "spec/*"]
+  s.files             = FileList["Rakefile", "lib/mpris.rb", "lib/mpris/*", "examples/*"]
   s.require_path      = "lib"
+  
+  # rdoc
   s.has_rdoc          = true
-  s.extra_rdoc_files  = ["README", "NEWS", "COPYING"]  
-  s.test_file         = "test/runtest.rb"
+  s.extra_rdoc_files  = ["README", "NEWS", "COPYING"]
+  
+  # Dependencies
+  #s.add_dependency "ruby-dbus"   - sadly ruby-dbus isn't avilable as a gem
+  s.add_dependency "rake"
 end
+
+desc "Default: package up the gem."
+task :default => :package
 
 task :build_package => [:repackage]
 Rake::GemPackageTask.new(spec) do |pkg|
-  #pkg.need_zip = true
-  #pkg.need_tar = true
+  pkg.need_zip = false
+  pkg.need_tar = true
   pkg.gem_spec = spec
 end
 
-desc "Default: run unit tests."
-task :default => :test
-
-desc "Run all the tests"
-Rake::TestTask.new(:test) do |t|
-  t.libs << "lib"
-  t.pattern = "test/runtest.rb"
-  t.verbose = true
+desc "Run :package and install the resulting .gem"
+task :install => :package do
+  sh %{sudo gem install --local pkg/#{NAME}-#{VERS}.gem}
 end
 
+desc "Run :clean and uninstall the .gem"
+task :uninstall => :clean do
+  sh %{sudo gem uninstall #{NAME}}
+end
+
+
+
+## Testing
+#desc "Run all the specification tests"
+#Rake::TestTask.new(:spec) do |t|
+#  t.warning = true
+#  t.verbose = true
+#  t.pattern = 'spec/*_spec.rb'
+#end
+  
+desc "Check the syntax of all ruby files"
+task :check_syntax do
+  `find . -name "*.rb" |xargs -n1 ruby -c |grep -v "Syntax OK"`
+  puts "* Done"
+end
+
+
+
+## Documentation
 desc "Generate documentation for the library"
 Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.rdoc_dir = 'rdoc'
