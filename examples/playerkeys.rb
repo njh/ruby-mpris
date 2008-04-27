@@ -14,7 +14,7 @@ require 'highline'
 require 'mpris'
 
 
-mpris = Mpris.new
+mpris = MPRIS.new
 
 puts "p:play space:pause s:stop [:prev ]:next q:quit"
 puts "+:volume_up -:volume_down x:exit"

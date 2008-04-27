@@ -12,6 +12,6 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 require 'mpris'
 
 
-mpris = Mpris.new
+mpris = MPRIS.new
 puts "Identity: #{mpris.identity}"
 puts "MPRIS API Version: #{mpris.mpris_version}"

@@ -7,7 +7,7 @@
 # License::   Distributes under the same terms as Ruby
 #
 
-class Mpris
+class MPRIS
 
   # This class represents the player itself.
   class Player
@@ -16,7 +16,7 @@ class Mpris
     PAUSED = 1
     STOPPED = 2
     
-    # A player object should only be created directly by its parent Mpris
+    # A player object should only be created directly by its parent MPRIS
     def initialize( service, parent ) #:nodoc:
       @service = service
       @parent = parent
@@ -24,11 +24,11 @@ class Mpris
       # Check the service implements the MediaPlayer interface
       object = @service.object("/Player")
       object.introspect
-      unless object.has_iface? Mpris::MPRIS_INTERFACE
-        raise(Mpris::InterfaceNotImplementedException, 
+      unless object.has_iface? MPRIS::MPRIS_INTERFACE
+        raise(MPRIS::InterfaceNotImplementedException, 
           "#{service_name} does not implement the MediaPlayer interface on /.")
       end
-      @interface = object[Mpris::MPRIS_INTERFACE]
+      @interface = object[MPRIS::MPRIS_INTERFACE]
     end
     
     
@@ -79,7 +79,7 @@ class Mpris
     end
     
     # Return the playing status of "Media Player".
-    # Mpris::Player::PLAYING / Mpris::Player::PAUSED / Mpris::Player::STOPPED
+    # MPRIS::Player::PLAYING / MPRIS::Player::PAUSED / MPRIS::Player::STOPPED
     def status
       return @interface.GetStatus.first[0]
     end

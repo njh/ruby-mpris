@@ -12,5 +12,5 @@ $:.unshift File.dirname(__FILE__)+'/../lib'
 require 'mpris'
 require 'pp'
 
-mpris = Mpris.new
+mpris = MPRIS.new
 pp mpris.player.metadata

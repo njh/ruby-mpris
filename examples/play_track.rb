@@ -13,5 +13,5 @@ require 'mpris'
 
 raise "Usage: play_track.rb <filename>" unless (ARGV.size == 1)
 
-mpris = Mpris.new
+mpris = MPRIS.new
 mpris.tracklist.add_track( ARGV[0], true )

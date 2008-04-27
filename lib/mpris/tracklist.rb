@@ -7,7 +7,7 @@
 # License::   Distributes under the same terms as Ruby
 #
 
-class Mpris
+class MPRIS
 
   # This class represents the Media Player's tracklist.
   #
@@ -18,7 +18,7 @@ class Mpris
   #
   class TrackList
   
-    # A tracklist object should only be created directly by its parent Mpris
+    # A tracklist object should only be created directly by its parent MPRIS
     def initialize( service, parent ) #:nodoc:
       @service = service
       @parent = parent
@@ -26,11 +26,11 @@ class Mpris
       # Check the service implements the MediaPlayer interface
       object = @service.object("/TrackList")
       object.introspect
-      unless object.has_iface? Mpris::MPRIS_INTERFACE
-        raise(Mpris::InterfaceNotImplementedException, 
+      unless object.has_iface? MPRIS::MPRIS_INTERFACE
+        raise(MPRIS::InterfaceNotImplementedException, 
           "#{service_name} does not implement the MediaPlayer interface on /.")
       end
-      @interface = object[Mpris::MPRIS_INTERFACE]
+      @interface = object[MPRIS::MPRIS_INTERFACE]
     end
     
     # Gives all metadata available for item at given position in the TrackList, counting from 0.
@@ -65,7 +65,16 @@ class Mpris
     #
     # pos is the position in the tracklist of the item to remove.
     def delete_track(pos)
-      @interface.DeleteTrack(pos)
+      @interface.DelTrack(pos)
+    end
+
+    # Removes all tracks from the TrackList.
+    def delete_all
+      len = length
+      while(len) do
+        delete_track(0)
+        len -= 1
+      end
     end
   
     # Set the tracklist looping status. true to loop, false to stop looping.
