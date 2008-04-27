@@ -29,7 +29,7 @@ spec = Gem::Specification.new do |s|
   s.extra_rdoc_files  = ["README", "NEWS", "COPYING"]
   
   # Dependencies
-  s.add_dependency "ruby-dbus"
+  #s.add_dependency "ruby-dbus"   - sadly ruby-dbus isn't avilable as a gem
   s.add_dependency "rake"
 end
 
