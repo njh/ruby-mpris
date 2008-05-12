@@ -481,6 +481,10 @@ describe 'MPRIS version 1.0' do
     it "should return the URL of the file in the 'location' returned by GetMetadata" do
       @metadata['location'].should == TEST_FILES[0]
     end
+
+    it "should return nil when getting an invalid track index" do
+      @tracklist.GetMetadata(1000).first.should be_nil
+    end
   end
   
   describe "service when getting/setting repeat" do
@@ -558,6 +562,12 @@ describe 'MPRIS version 1.0' do
       len = @tracklist.GetLength.first
       @tracklist.DelTrack( len-1 )
       @tracklist.GetLength.first.should == (len-1)
+    end
+
+    it "should have the same track count after deleting an invalid track index" do
+      len = @tracklist.GetLength.first
+      @tracklist.DelTrack( 1000 )
+      @tracklist.GetLength.first.should == len
     end
   end
 
