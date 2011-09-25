@@ -16,17 +16,16 @@ spec = Gem::Specification.new do |s|
   s.version           = VERS
   s.author            = "Nicholas J Humfrey"
   s.email             = "njh@aelius.com"
-  s.homepage          = "http://mpris.rubyforge.org"
+  s.homepage          = "http://github.com/njh/ruby-mpris"
   s.platform          = Gem::Platform::RUBY
   s.summary           = "A library to control MPRIS based Media Players" 
-  s.rubyforge_project = "mpris" 
   s.description       = "The mpris gem allows you to control media players that follow the MPRIS specification."
   s.files             = FileList["Rakefile", "lib/mpris.rb", "lib/mpris/*", "examples/*"]
   s.require_path      = "lib"
   
   # rdoc
   s.has_rdoc          = true
-  s.extra_rdoc_files  = ["README", "NEWS", "COPYING"]
+  s.extra_rdoc_files  = ["README.md", "NEWS.md", "COPYING"]
   
   # Dependencies
   #s.add_dependency "ruby-dbus"   - sadly ruby-dbus isn't avilable as a gem
@@ -77,11 +76,6 @@ Rake::RDocTask.new("rdoc") { |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = "ruby-mpris Documentation"
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.main = "README"
-  rdoc.rdoc_files.include("README", "NEWS", "COPYING", "lib/mpris.rb", "lib/mpris/*.rb")
+  rdoc.main = "README.md"
+  rdoc.rdoc_files.include("README.md", "NEWS.md", "COPYING", "lib/mpris.rb", "lib/mpris/*.rb")
 }
-
-desc "Upload rdoc to rubyforge"
-task :upload_rdoc => [:rdoc] do
-  sh %{/usr/bin/scp -r -p rdoc/* mpris.rubyforge.org:/var/www/gforge-projects/mpris}
-end
